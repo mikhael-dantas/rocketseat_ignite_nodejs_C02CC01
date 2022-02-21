@@ -1,0 +1,181 @@
+{
+   "openapi" : "3.0.0",
+   "servers" : [ {
+   "description" : "SwaggerHub API Auto Mocking",
+   "url" : "https://virtserver.swaggerhub.com/mikhael-dantas/rocketseat_ignite_nodejs_C02CC01/1.0.0"
+   } ],
+   "info" : {
+   "description" : "This is a simple API schema made according to the existing test suites, developed to be approved by rocketseat",
+   "version" : "1.0.0",
+   "title" : "Simple User manipulation API",
+   "contact" : {
+      "email" : "mikhael-dcs@outlook.com"
+   }
+   },
+   "tags" : [ {
+   "name" : "admins",
+   "description" : "Secured Admin-only calls"
+   } ],
+   "paths" : {
+   "/users" : {
+      "get" : {
+         "tags" : [ "admins" ],
+         "summary" : "searches users",
+         "operationId" : "searchUsers",
+         "description" : "By passing in the appropriate options, you can search for a list of users",
+         "parameters" : [ {
+         "in" : "header",
+         "name" : "user_id",
+         "description" : "id of the admin making the request",
+         "required" : true,
+         "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+         }
+         } ],
+         "responses" : {
+         "200" : {
+            "description" : "search results",
+            "content" : {
+               "application/json" : {
+               "schema" : {
+                  "type" : "array",
+                  "items" : {
+                     "$ref" : "#/components/schemas/User"
+                  }
+               }
+               }
+            }
+         },
+         "400" : {
+            "description" : "bad input parameter"
+         }
+         }
+      },
+      "post" : {
+         "summary" : "adds an user",
+         "operationId" : "addUser",
+         "description" : "Adds an non-existing email user to the system",
+         "responses" : {
+         "200" : {
+            "description" : "user created"
+         },
+         "400" : {
+            "description" : "invalid input, object invalid"
+         }
+         },
+         "requestBody" : {
+         "content" : {
+            "application/json" : {
+               "schema" : {
+               "$ref" : "#/components/schemas/User"
+               }
+            }
+         },
+         "description" : "User info to add"
+         }
+      }
+   },
+   "/users/{user_id}/admin" : {
+      "patch" : {
+         "summary" : "turn user into admin",
+         "operationId" : "turnhUserAdmin",
+         "description" : "By passing in the appropriate options, you can turn a user into admin",
+         "parameters" : [ {
+         "in" : "path",
+         "name" : "user_id",
+         "description" : "id of the existing user to turn",
+         "required" : true,
+         "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+         }
+         } ],
+         "responses" : {
+         "200" : {
+            "description" : "turned user results",
+            "content" : {
+               "application/json" : {
+               "schema" : {
+                  "$ref" : "#/components/schemas/User"
+               }
+               }
+            }
+         },
+         "400" : {
+            "description" : "bad input parameter"
+         }
+         }
+      }
+   },
+   "/users/{user_id}" : {
+      "get" : {
+         "summary" : "searches user",
+         "operationId" : "searchUser",
+         "description" : "By passing in the appropriate options, you can search for a specific user",
+         "parameters" : [ {
+         "in" : "path",
+         "name" : "user_id",
+         "description" : "id of the existing user to search",
+         "required" : true,
+         "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+         }
+         } ],
+         "responses" : {
+         "200" : {
+            "description" : "searched results",
+            "content" : {
+               "application/json" : {
+               "schema" : {
+                  "$ref" : "#/components/schemas/User"
+               }
+               }
+            }
+         },
+         "400" : {
+            "description" : "bad input parameter"
+         }
+         }
+      }
+   }
+   },
+   "components" : {
+   "schemas" : {
+      "User" : {
+         "type" : "object",
+         "required" : [ "name", "email" ],
+         "properties" : {
+         "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+         },
+         "name" : {
+            "type" : "string",
+            "example" : "Widget Adapter"
+         },
+         "admin" : {
+            "type" : "boolean",
+            "example" : false
+         },
+         "email" : {
+            "type" : "string",
+            "example" : "widgetadapter@gmail.com"
+         },
+         "created_at" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2016-08-29T09:12:33.001Z"
+         },
+         "updated_at" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2016-08-29T09:12:33.001Z"
+         }
+         }
+      }
+   }
+   }
+}
